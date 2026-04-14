@@ -1,0 +1,39 @@
+<view class="container">
+  <!-- 输入区域 -->
+  <view class="input-section">
+    <input
+      class="todo-input"
+      placeholder="请输入待办事项..."
+      value="{{inputValue}}"
+      bindinput="onInput"
+      bindconfirm="addTodo"
+    />
+    <button class="add-btn" bindtap="addTodo">添加</button>
+  </view>
+
+  <!-- 统计信息 -->
+  <view class="stats">
+    <text class="stats-text">共 {{todos.length}} 项 | 已完成 {{completedCount}} 项</text>
+    <text class="clear-btn" bindtap="clearCompleted" wx:if="{{completedCount > 0}}">清除已完成</text>
+  </view>
+
+  <!-- 待办列表 -->
+  <view class="todo-list">
+    <view class="todo-item {{item.completed ? 'completed' : ''}}"
+          wx:for="{{todos}}"
+          wx:key="id">
+      <view class="checkbox" bindtap="toggleTodo" data-id="{{item.id}}">
+        <view class="check-inner" wx:if="{{item.completed}}">✓</view>
+      </view>
+      <text class="todo-text">{{item.text}}</text>
+      <view class="delete-btn" bindtap="deleteTodo" data-id="{{item.id}}">×</view>
+    </view>
+  </view>
+
+  <!-- 空状态 -->
+  <view class="empty-state" wx:if="{{todos.length === 0}}">
+    <view class="empty-icon">📝</view>
+    <text class="empty-text">暂无待办事项</text>
+    <text class="empty-subtext">点击上方添加按钮开始记录</text>
+  </view>
+</view>

@@ -1,0 +1,1099 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>待办清单</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 50%, #ffffff 100%);
+            min-height: 100vh;
+            padding: 20px;
+            position: relative;
+        }
+
+        /* 粉红小猪背景 */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url('https://images.unsplash.com/photo-1550159930-40066082a4fc?w=1200');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            filter: blur(8px) opacity(0.15);
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* 每日名言卡片 */
+        .quote-card {
+            background: linear-gradient(135deg, rgba(255,182,193,0.9) 0%, rgba(255,218,185,0.9) 100%);
+            border-radius: 20px;
+            padding: 25px 30px;
+            margin-bottom: 20px;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(255,182,193,0.3);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255,255,255,0.5);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .quote-card::before {
+            content: '🐷';
+            position: absolute;
+            top: 10px;
+            left: 15px;
+            font-size: 24px;
+            opacity: 0.6;
+        }
+
+        .quote-card::after {
+            content: '🐽';
+            position: absolute;
+            bottom: 10px;
+            right: 15px;
+            font-size: 24px;
+            opacity: 0.6;
+        }
+
+        .quote-text {
+            font-size: 18px;
+            color: #5d4037;
+            font-weight: 600;
+            line-height: 1.6;
+            font-style: italic;
+        }
+
+        .quote-author {
+            font-size: 14px;
+            color: #8d6e63;
+            margin-top: 10px;
+        }
+
+        /* 头部卡片 */
+        .header-card {
+            background: rgba(255, 255, 255, 0.92);
+            border-radius: 24px;
+            padding: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.8);
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .title {
+            font-size: 32px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ff6b9d 0%, #feca57 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .date {
+            color: #888;
+            font-size: 14px;
+        }
+
+        /* 进度条 */
+        .progress-section {
+            margin-bottom: 20px;
+        }
+
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .progress-bar {
+            height: 10px;
+            background: #e0e0e0;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ff6b9d 0%, #feca57 100%);
+            border-radius: 5px;
+            transition: width 0.5s ease;
+        }
+
+        /* 统计卡片 */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #fff5f7 0%, #fff9e6 100%);
+            border-radius: 16px;
+            padding: 15px 10px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid rgba(255,182,193,0.3);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(255,182,193,0.3);
+        }
+
+        .stat-number {
+            font-size: 26px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ff6b9d 0%, #feca57 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #888;
+            margin-top: 4px;
+        }
+
+        /* 输入区域 */
+        .input-section {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .input-wrapper {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .todo-input {
+            width: 100%;
+            height: 50px;
+            padding: 0 18px;
+            border: 2px solid #ffd1dc;
+            border-radius: 16px;
+            font-size: 15px;
+            outline: none;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .todo-input:focus {
+            border-color: #ff6b9d;
+            box-shadow: 0 0 0 4px rgba(255,107,157,0.15);
+        }
+
+        .input-options {
+            display: flex;
+            gap: 8px;
+        }
+
+        .option-btn {
+            height: 50px;
+            padding: 0 15px;
+            background: white;
+            border: 2px solid #ffd1dc;
+            border-radius: 12px;
+            font-size: 14px;
+            color: #666;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .option-btn:hover {
+            border-color: #ff6b9d;
+            color: #ff6b9d;
+        }
+
+        .add-btn {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #ff6b9d 0%, #feca57 100%);
+            color: white;
+            border: none;
+            border-radius: 14px;
+            font-size: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .add-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(255,107,157,0.4);
+        }
+
+        /* 分类选择 */
+        .category-section {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px;
+            flex-wrap: wrap;
+        }
+
+        .category-tag {
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .category-tag.work { background: rgba(227,242,253,0.8); color: #1976d2; }
+        .category-tag.life { background: rgba(232,245,233,0.8); color: #388e3c; }
+        .category-tag.study { background: rgba(243,229,245,0.8); color: #7b1fa2; }
+        .category-tag.other { background: rgba(245,245,245,0.8); color: #616161; }
+
+        .category-tag.active {
+            border-color: currentColor;
+            transform: scale(1.05);
+        }
+
+        /* 筛选标签 */
+        .filter-section {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .filter-tabs {
+            display: flex;
+            gap: 8px;
+            background: rgba(255,255,255,0.9);
+            padding: 6px;
+            border-radius: 16px;
+            flex: 1;
+        }
+
+        .filter-tab {
+            flex: 1;
+            padding: 10px 16px;
+            border: none;
+            background: transparent;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #888;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .filter-tab.active {
+            background: linear-gradient(135deg, #ff6b9d 0%, #feca57 100%);
+            color: white;
+        }
+
+        .filter-dropdown {
+            position: relative;
+        }
+
+        .dropdown-btn {
+            padding: 10px 20px;
+            background: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 14px;
+            color: #666;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            margin-top: 8px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+            padding: 8px;
+            min-width: 150px;
+            display: none;
+            z-index: 100;
+        }
+
+        .dropdown-menu.show {
+            display: block;
+        }
+
+        .dropdown-item {
+            padding: 10px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.2s;
+        }
+
+        .dropdown-item:hover {
+            background: #f5f5f5;
+        }
+
+        /* 待办列表 */
+        .todo-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .todo-item {
+            display: flex;
+            align-items: center;
+            padding: 18px 20px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            animation: slideIn 0.3s ease;
+            border-left: 4px solid transparent;
+        }
+
+        .todo-item.priority-high { border-left-color: #ff6b6b; }
+        .todo-item.priority-medium { border-left-color: #feca57; }
+        .todo-item.priority-low { border-left-color: #48dbfb; }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .todo-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+        }
+
+        .todo-item.completed {
+            background: rgba(245, 245, 245, 0.9);
+            opacity: 0.8;
+        }
+
+        .todo-item.completed .todo-text {
+            text-decoration: line-through;
+            color: #aaa;
+        }
+
+        .checkbox {
+            width: 24px;
+            height: 24px;
+            border: 3px solid #ffd1dc;
+            border-radius: 50%;
+            margin-right: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .checkbox:hover {
+            border-color: #ff6b9d;
+            transform: scale(1.1);
+        }
+
+        .checkbox.checked {
+            background: linear-gradient(135deg, #ff6b9d 0%, #feca57 100%);
+            border-color: transparent;
+        }
+
+        .checkbox.checked i {
+            color: white;
+            font-size: 12px;
+        }
+
+        .todo-content {
+            flex: 1;
+        }
+
+        .todo-text {
+            font-size: 15px;
+            color: #333;
+            word-break: break-all;
+            line-height: 1.5;
+            margin-bottom: 6px;
+        }
+
+        .todo-meta {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .category-badge {
+            padding: 3px 10px;
+            border-radius: 10px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .category-badge.work { background: #e3f2fd; color: #1976d2; }
+        .category-badge.life { background: #e8f5e9; color: #388e3c; }
+        .category-badge.study { background: #f3e5f5; color: #7b1fa2; }
+        .category-badge.other { background: #f5f5f5; color: #616161; }
+
+        .priority-badge {
+            font-size: 12px;
+        }
+
+        .priority-high { color: #ff6b6b; }
+        .priority-medium { color: #f9ca24; }
+        .priority-low { color: #48dbfb; }
+
+        .due-date {
+            font-size: 11px;
+            color: #888;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .due-date.overdue {
+            color: #ff6b6b;
+            font-weight: 600;
+        }
+
+        .due-date.today {
+            color: #ff6b9d;
+            font-weight: 600;
+        }
+
+        .delete-btn {
+            width: 34px;
+            height: 34px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ff9a9e;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .delete-btn:hover {
+            background: rgba(255,154,158,0.1);
+            color: #ff6b6b;
+            transform: rotate(90deg);
+        }
+
+        /* 清除按钮 */
+        .clear-section {
+            text-align: center;
+            margin-top: 25px;
+        }
+
+        .clear-btn {
+            padding: 12px 28px;
+            background: rgba(255,255,255,0.9);
+            border: 2px solid #ffd1dc;
+            border-radius: 30px;
+            color: #ff6b9d;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .clear-btn:hover {
+            background: white;
+            border-color: #ff6b9d;
+            box-shadow: 0 10px 30px rgba(255,107,157,0.25);
+            transform: translateY(-2px);
+        }
+
+        /* 空状态 */
+        .empty-state {
+            text-align: center;
+            padding: 70px 20px;
+            color: #666;
+        }
+
+        .empty-icon {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 25px;
+            background: linear-gradient(135deg, #ffd1dc 0%, #ffecf0 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 50px;
+            box-shadow: 0 10px 30px rgba(255,182,193,0.3);
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .empty-text {
+            font-size: 20px;
+            font-weight: 700;
+            color: #5d4037;
+            margin-bottom: 8px;
+        }
+
+        .empty-subtext {
+            font-size: 14px;
+            color: #8d6e63;
+        }
+
+        /* 弹窗 */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 20px;
+        }
+
+        .modal-overlay.show {
+            display: flex;
+        }
+
+        .modal {
+            background: white;
+            border-radius: 24px;
+            padding: 30px;
+            width: 100%;
+            max-width: 400px;
+            animation: modalIn 0.3s ease;
+        }
+
+        @keyframes modalIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .modal-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .modal-section {
+            margin-bottom: 20px;
+        }
+
+        .modal-label {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .modal-input, .modal-select {
+            width: 100%;
+            height: 48px;
+            padding: 0 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 15px;
+            outline: none;
+        }
+
+        .modal-input:focus, .modal-select:focus {
+            border-color: #ff6b9d;
+        }
+
+        .priority-options {
+            display: flex;
+            gap: 10px;
+        }
+
+        .priority-option {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 13px;
+        }
+
+        .priority-option.selected {
+            border-color: currentColor;
+            background: rgba(255,255,255,0.5);
+        }
+
+        .priority-option.high { color: #ff6b6b; }
+        .priority-option.medium { color: #feca57; }
+        .priority-option.low { color: #48dbfb; }
+
+        .modal-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 25px;
+        }
+
+        .modal-btn {
+            flex: 1;
+            height: 48px;
+            border: none;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .modal-btn.cancel {
+            background: #f5f5f5;
+            color: #666;
+        }
+
+        .modal-btn.confirm {
+            background: linear-gradient(135deg, #ffab6b 0%, #feca57 100%);
+            color: white;
+        }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0,0,0,0.8);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 10px;
+            font-size: 14px;
+            z-index: 2000;
+            display: none;
+        }
+
+        .toast.show {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translate(-50%, -40%); }
+            to { opacity: 1; transform: translate(-50%, -50%); }
+        }
+
+        /* 响应式 */
+        @media (max-width: 480px) {
+            body { padding: 15px; }
+            .header-card { padding: 20px; border-radius: 20px; }
+            .title { font-size: 24px; }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+            .quote-card { padding: 20px; }
+            .quote-text { font-size: 15px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 每日名言 -->
+        <div class="quote-card" id="quoteCard">
+            <div class="quote-text" id="quoteText"> loading...</div>
+            <div class="quote-author" id="quoteAuthor"></div>
+        </div>
+
+        <!-- 头部卡片 -->
+        <div class="header-card">
+            <div class="header-top">
+                <h1 class="title">🐷 待办清单</h1>
+                <span class="date" id="currentDate"></span>
+            </div>
+
+            <div class="progress-section">
+                <div class="progress-label">
+                    <span>今日完成进度</span>
+                    <span id="progressText">0%</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+                </div>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number" id="totalCount">0</div>
+                    <div class="stat-label">全部</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="activeCount">0</div>
+                    <div class="stat-label">待办</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="completedCount">0</div>
+                    <div class="stat-label">已完成</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="overdueCount">0</div>
+                    <div class="stat-label">已过期</div>
+                </div>
+            </div>
+
+            <div class="input-section">
+                <div class="input-wrapper">
+                    <input type="text" class="todo-input" id="todoInput" placeholder="添加新的待办事项...">
+                </div>
+                <button class="option-btn" onclick="openModal()">
+                    <i class="fas fa-sliders-h"></i>
+                </button>
+                <button class="add-btn" onclick="addTodo()">
+                    <i class="fas fa-plus"></i>
+                </button>
+            </div>
+
+            <div class="category-section">
+                <span class="category-tag work" data-cat="work" onclick="quickSelectCategory('work')">💼 工作</span>
+                <span class="category-tag life" data-cat="life" onclick="quickSelectCategory('life')">🏠 生活</span>
+                <span class="category-tag study" data-cat="study" onclick="quickSelectCategory('study')">📚 学习</span>
+                <span class="category-tag other" data-cat="other" onclick="quickSelectCategory('other')">📦 其他</span>
+            </div>
+        </div>
+
+        <!-- 筛选 -->
+        <div class="filter-section">
+            <div class="filter-tabs">
+                <button class="filter-tab active" data-filter="all" onclick="setFilter('all')">全部</button>
+                <button class="filter-tab" data-filter="active" onclick="setFilter('active')">待办</button>
+                <button class="filter-tab" data-filter="completed" onclick="setFilter('completed')">已完成</button>
+            </div>
+            <div class="filter-dropdown">
+                <button class="dropdown-btn" onclick="toggleDropdown()">
+                    筛选 <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="dropdown-menu" id="dropdownMenu">
+                    <div class="dropdown-item" onclick="setCategoryFilter('work')">💼 工作</div>
+                    <div class="dropdown-item" onclick="setCategoryFilter('life')">🏠 生活</div>
+                    <div class="dropdown-item" onclick="setCategoryFilter('study')">📚 学习</div>
+                    <div class="dropdown-item" onclick="setCategoryFilter('other')">📦 其他</div>
+                    <div class="dropdown-item" onclick="setPriorityFilter('high')">🔴 高优先级</div>
+                    <div class="dropdown-item" onclick="setPriorityFilter('medium')">🟡 中优先级</div>
+                    <div class="dropdown-item" onclick="setPriorityFilter('low')">🔵 低优先级</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 待办列表 -->
+        <div class="todo-list" id="todoList"></div>
+
+        <div class="clear-section" id="clearSection" style="display: none;">
+            <button class="clear-btn" onclick="clearCompleted()">
+                <i class="fas fa-trash-alt"></i>
+                清除已完成
+            </button>
+        </div>
+
+        <div class="empty-state" id="emptyState">
+            <div class="empty-icon">🐽</div>
+            <div class="empty-text">暂无待办事项</div>
+            <div class="empty-subtext">和佩奇一起完成今天的目标吧！</div>
+        </div>
+    </div>
+
+    <!-- 添加弹窗 -->
+    <div class="modal-overlay" id="modalOverlay" onclick="closeModalOnOverlay(event)">
+        <div class="modal" onclick="event.stopPropagation()">
+            <div class="modal-title">添加待办</div>
+
+            <div class="modal-section">
+                <label class="modal-label">待办内容</label>
+                <input type="text" class="modal-input" id="modalInput" placeholder="请输入待办事项...">
+            </div>
+
+            <div class="modal-section">
+                <label class="modal-label">分类</label>
+                <select class="modal-select" id="modalCategory">
+                    <option value="work">💼 工作</option>
+                    <option value="life">🏠 生活</option>
+                    <option value="study">📚 学习</option>
+                    <option value="other">📦 其他</option>
+                </select>
+            </div>
+
+            <div class="modal-section">
+                <label class="modal-label">截止日期</label>
+                <input type="date" class="modal-input" id="modalDate">
+            </div>
+
+            <div class="modal-section">
+                <label class="modal-label">优先级</label>
+                <div class="priority-options">
+                    <div class="priority-option high" data-priority="high" onclick="selectPriority('high')">
+                        🔴 高
+                    </div>
+                    <div class="priority-option medium selected" data-priority="medium" onclick="selectPriority('medium')">
+                        🟡 中
+                    </div>
+                    <div class="priority-option low" data-priority="low" onclick="selectPriority('low')">
+                        🔵 低
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-buttons">
+                <button class="modal-btn cancel" onclick="closeModal()">取消</button>
+                <button class="modal-btn confirm" onclick="confirmAdd()">确定</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+        // 励志名言库
+        const quotes = [
+            { text: "种一棵树最好的时间是十年前，其次是现在。", author: "丹比萨·莫约" },
+            { text: "不积跬步，无以至千里；不积小流，无以成江海。", author: "荀子" },
+            { text: "星光不问赶路人，时光不负有心人。", author: "大冰" },
+            { text: "努力不一定成功，但放弃一定失败。", author: "姚明" },
+            { text: "每一个不曾起舞的日子，都是对生命的辜负。", author: "尼采" },
+            { text: "生活不是等待风暴过去，而是学会在雨中跳舞。", author: "维维安·格林" },
+            { text: "成功的路上并不拥挤，因为坚持的人不多。", author: "佚名" },
+            { text: "梦想不会逃跑，逃跑的永远只是不敢追梦的人。", author: "高桥步" },
+            { text: "与其临渊羡鱼，不如退而结网。", author: "汉书" },
+            { text: "路漫漫其修远兮，吾将上下而求索。", author: "屈原" },
+            { text: "天行健，君子以自强不息。", author: "周易" },
+            { text: "业精于勤，荒于嬉；行成于思，毁于随。", author: "韩愈" },
+            { text: "千里之行，始于足下。", author: "老子" },
+            { text: "宝剑锋从磨砺出，梅花香自苦寒来。", author: "警世贤文" },
+            { text: "只要功夫深，铁杵磨成针。", author: "中国谚语" },
+            { text: "锲而舍之，朽木不折；锲而不舍，金石可镂。", author: "荀子" },
+            { text: "书山有路勤为径，学海无涯苦作舟。", author: "韩愈" },
+            { text: "一分耕耘，一分收获。", author: "谚语" },
+            { text: "世上无难事，只怕有心人。", author: "毛泽东" },
+            { text: "生活就像海洋，只有意志坚强的人，才能到达彼岸。", author: "马克思" },
+            { text: "不要等待机会，而要创造机会。", author: "乔治·萧伯纳" },
+            { text: "行动是治愈恐惧的良药，而犹豫拖延将不断滋养恐惧。", author: "戴尔·卡耐基" },
+            { text: "成功的秘诀在于永不改变既定的目标。", author: "卢梭" },
+            { text: "即使爬到最高的山上，一次也只能脚踏实地地迈一步。", author: "佚名" },
+            { text: "你的时间有限，不要为别人而活。", author: "史蒂夫·乔布斯" },
+            { text: "保持饥饿，保持愚蠢。", author: "史蒂夫·乔布斯" },
+            { text: "今天是你余生的第一天。", author: "查尔斯·狄更斯" },
+            { text: "最好的投资就是投资自己。", author: "沃伦·巴菲特" },
+            { text: "不要等待完美时刻，抓住时刻让它完美。", author: "佚名" },
+            { text: "相信自己，你比你想象的更强大。", author: "佚名" },
+            { text: "每一天都是新的开始。", author: "佚名" },
+            { text: "只有不断找寻机会的人才会及时把握机会。", author: "佚名" },
+            { text: "凡事预则立，不预则废。", author: "礼记" },
+            { text: "少壮不努力，老大徒伤悲。", author: "长歌行" },
+            { text: "黑发不知勤学早，白首方悔读书迟。", author: "颜真卿" },
+            { text: "莫等闲，白了少年头，空悲切。", author: "岳飞" },
+            { text: "明日复明日，明日何其多。", author: "钱福" },
+            { text: "一寸光阴一寸金，寸金难买寸光阴。", author: "增广贤文" }
+        ];
+
+        function getTodayQuote() {
+            const today = new Date();
+            const dayOfYear = Math.floor((today - new Date(today.getFullYear(), 0, 0)) / (1000 * 60 * 60 * 24));
+            return quotes[dayOfYear % quotes.length];
+        }
+
+        function displayQuote() {
+            const quote = getTodayQuote();
+            document.getElementById('quoteText').textContent = '"' + quote.text + '"';
+            document.getElementById('quoteAuthor').textContent = '—— ' + quote.author;
+        }
+
+        let todos = JSON.parse(localStorage.getItem('todos')) || [];
+        let currentFilter = 'all';
+        let categoryFilter = null;
+        let priorityFilter = null;
+        let selectedCategory = 'work';
+        let selectedPriority = 'medium';
+
+        init();
+
+        function init() {
+            displayQuote();
+            updateDate();
+            render();
+            document.getElementById('todoInput').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') addTodo();
+            });
+        }
+
+        function updateDate() {
+            const date = new Date();
+            const options = { year: 'numeric', month: 'long', day: 'numeric', weekday: 'long' };
+            document.getElementById('currentDate').textContent = date.toLocaleDateString('zh-CN', options);
+        }
+
+        function quickSelectCategory(cat) {
+            selectedCategory = cat;
+            document.querySelectorAll('.category-tag').forEach(tag => {
+                tag.classList.remove('active');
+                if (tag.dataset.cat === cat) tag.classList.add('active');
+            });
+        }
+
+        function addTodo() {
+            const input = document.getElementById('todoInput');
+            const text = input.value.trim();
+            if (!text) { showToast('请输入待办内容'); return; }
+            openModal(text);
+        }
+
+        function openModal(text = '') {
+            document.getElementById('modalInput').value = text;
+            document.getElementById('modalDate').value = new Date().toISOString().split('T')[0];
+            document.getElementById('modalOverlay').classList.add('show');
+        }
+
+        function closeModal() { document.getElementById('modalOverlay').classList.remove('show'); }
+        function closeModalOnOverlay(e) { if (e.target === document.getElementById('modalOverlay')) closeModal(); }
+
+        function selectPriority(priority) {
+            selectedPriority = priority;
+            document.querySelectorAll('.priority-option').forEach(opt => {
+                opt.classList.remove('selected');
+                if (opt.dataset.priority === priority) opt.classList.add('selected');
+            });
+        }
+
+        function confirmAdd() {
+            const text = document.getElementById('modalInput').value.trim();
+            const category = document.getElementById('modalCategory').value;
+            const dueDate = document.getElementById('modalDate').value;
+            if (!text) { showToast('请输入待办内容'); return; }
+            const todo = { id: Date.now(), text: text, completed: false, category: category, priority: selectedPriority, dueDate: dueDate, createTime: new Date().toLocaleString('zh-CN', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' }) };
+            todos.unshift(todo);
+            document.getElementById('todoInput').value = '';
+            closeModal();
+            saveAndRender();
+            showToast('添加成功！');
+        }
+
+        function toggleTodo(id) {
+            todos = todos.map(item => { if (item.id === id) return { ...item, completed: !item.completed }; return item; });
+            saveAndRender();
+        }
+
+        function deleteTodo(id) {
+            if (confirm('确定删除这条待办吗？')) {
+                todos = todos.filter(item => item.id !== id);
+                saveAndRender();
+                showToast('已删除');
+            }
+        }
+
+        function clearCompleted() {
+            const completedCount = todos.filter(item => item.completed).length;
+            if (!completedCount) return;
+            if (confirm('确定清除 ' + completedCount + ' 条已完成的待办吗？')) {
+                todos = todos.filter(item => !item.completed);
+                saveAndRender();
+                showToast('清除成功！');
+            }
+        }
+
+        function setFilter(filter) {
+            currentFilter = filter;
+            document.querySelectorAll('.filter-tab').forEach(tab => { tab.classList.remove('active'); if (tab.dataset.filter === filter) tab.classList.add('active'); });
+            render();
+        }
+
+        function toggleDropdown() { document.getElementById('dropdownMenu').classList.toggle('show'); }
+        function setCategoryFilter(cat) { categoryFilter = cat; priorityFilter = null; document.getElementById('dropdownMenu').classList.remove('show'); render(); }
+        function setPriorityFilter(priority) { priorityFilter = priority; categoryFilter = null; document.getElementById('dropdownMenu').classList.remove('show'); render(); }
+        function saveAndRender() { localStorage.setItem('todos', JSON.stringify(todos)); render(); }
+
+        function isOverdue(dueDate) {
+            if (!dueDate) return false;
+            const today = new Date(); today.setHours(0,0,0,0);
+            const due = new Date(dueDate); due.setHours(0,0,0,0);
+            return due < today;
+        }
+
+        function isToday(dueDate) {
+            if (!dueDate) return false;
+            return new Date().toDateString() === new Date(dueDate).toDateString();
+        }
+
+        function getDueDateLabel(dueDate) {
+            if (!dueDate) return '';
+            if (isOverdue(dueDate)) return '已过期';
+            if (isToday(dueDate)) return '今天';
+            const date = new Date(dueDate);
+            return (date.getMonth() + 1) + '/' + date.getDate();
+        }
+
+        function render() {
+            const todoList = document.getElementById('todoList'), emptyState = document.getElementById('emptyState'), clearSection = document.getElementById('clearSection');
+            let filtered = todos;
+            if (currentFilter === 'active') filtered = filtered.filter(i => !i.completed);
+            if (currentFilter === 'completed') filtered = filtered.filter(i => i.completed);
+            if (categoryFilter) filtered = filtered.filter(i => i.category === categoryFilter);
+            if (priorityFilter) filtered = filtered.filter(i => i.priority === priorityFilter);
+            const total = todos.length, completed = todos.filter(i => i.completed).length, active = total - completed, overdue = todos.filter(i => !i.completed && isOverdue(i.dueDate)).length, progress = total > 0 ? Math.round((completed / total) * 100) : 0;
+            document.getElementById('totalCount').textContent = total;
+            document.getElementById('activeCount').textContent = active;
+            document.getElementById('completedCount').textContent = completed;
+            document.getElementById('overdueCount').textContent = overdue;
+            document.getElementById('progressText').textContent = progress + '%';
+            document.getElementById('progressFill').style.width = progress + '%';
+            clearSection.style.display = (completed > 0 && currentFilter !== 'active') ? 'block' : 'none';
+            if (filtered.length === 0) { todoList.style.display = 'none'; emptyState.style.display = 'block'; return; }
+            todoList.style.display = 'flex'; emptyState.style.display = 'none';
+            filtered.sort((a, b) => { if (a.completed !== b.completed) return a.completed ? 1 : -1; const pMap = { high: 3, medium: 2, low: 1 }; return pMap[b.priority] - pMap[a.priority]; });
+            const catMap = { work: '💼', life: '🏠', study: '📚', other: '📦' }, pMap = { high: '🔴', medium: '🟡', low: '🔵' };
+            const catName = { work: '工作', life: '生活', study: '学习', other: '其他' }, pName = { high: '高', medium: '中', low: '低' };
+            todoList.innerHTML = filtered.map(item => {
+                const dueLabel = getDueDateLabel(item.dueDate), dueClass = isOverdue(item.dueDate) ? 'overdue' : (isToday(item.dueDate) ? 'today' : '');
+                return '<div class="todo-item priority-' + item.priority + (item.completed ? ' completed' : '') + '"><div class="checkbox ' + (item.completed ? 'checked' : '') + '" onclick="toggleTodo(' + item.id + ')">' + (item.completed ? '<i class="fas fa-check"></i>' : '') + '</div><div class="todo-content"><div class="todo-text">' + escapeHtml(item.text) + '</div><div class="todo-meta"><span class="category-badge ' + item.category + '">' + catMap[item.category] + ' ' + catName[item.category] + '</span><span class="priority-badge priority-' + item.priority + '">' + pMap[item.priority] + ' ' + pName[item.priority] + '</span>' + (dueLabel ? '<span class="due-date ' + dueClass + '"><i class="far fa-calendar"></i> ' + dueLabel + '</span>' : '') + '</div></div><div class="delete-btn" onclick="deleteTodo(' + item.id + ')"><i class="fas fa-times"></i></div></div>';
+            }).join('');
+        }
+
+        function escapeHtml(text) { const div = document.createElement('div'); div.textContent = text; return div.innerHTML; }
+        function showToast(message) { const toast = document.getElementById('toast'); toast.textContent = message; toast.classList.add('show'); setTimeout(() => toast.classList.remove('show'), 1500); }
+        document.addEventListener('click', function(e) { if (!e.target.closest('.filter-dropdown')) document.getElementById('dropdownMenu').classList.remove('show'); });
+    </script>
+</body>
+</html>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>扫雷游戏</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="game-container">
+        <h1>扫雷游戏</h1>
+        <div class="difficulty-buttons">
+            <button class="difficulty-btn" data-difficulty="easy">简单</button>
+            <button class="difficulty-btn" data-difficulty="medium">中等</button>
+            <button class="difficulty-btn" data-difficulty="hard">困难</button>
+        </div>
+        <button id="new-game">新游戏</button>
+        <div class="board">
+            {% for row in range(rows) %}
+            <div class="row">
+                {% for col in range(cols) %}
+                <div class="cell" data-row="{{ row }}" data-col="{{ col }}"></div>
+                {% endfor %}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <script>
+        let currentDifficulty = 'medium'; // 默认中等难度
+
+        document.querySelectorAll('.cell').forEach(cell => {
+            cell.addEventListener('click', function() {
+                const row = this.dataset.row;
+                const col = this.dataset.col;
+
+                fetch('/reveal', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({row: parseInt(row), col: parseInt(col)})
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if(data.status === 'lost') {
+                        alert('游戏结束！你踩到了地雷！');
+                        updateBoard(data.board);
+                    } else if(data.status === 'won') {
+                        alert('恭喜你赢了！');
+                        updateBoard(data.board);
+                    } else if(data.status === 'continue') {
+                        updateBoard(data.board);
+                    }
+                });
+            });
+        });
+
+        // 难度选择按钮事件
+        document.querySelectorAll('.difficulty-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                // 移除所有按钮的活跃状态
+                document.querySelectorAll('.difficulty-btn').forEach(b => {
+                    b.classList.remove('active');
+                });
+                // 设置当前按钮为活跃状态
+                this.classList.add('active');
+
+                // 更新当前难度
+                currentDifficulty = this.dataset.difficulty;
+            });
+        });
+
+        document.getElementById('new-game').addEventListener('click', function() {
+            fetch('/new_game', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({difficulty: currentDifficulty})
+            })
+            .then(response => response.json())
+            .then(data => {
+                // 重新加载页面以更新游戏板尺寸
+                window.location.reload();
+            });
+        });
+
+        // 设置默认选择中等难度
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelector('.difficulty-btn[data-difficulty="medium"]').classList.add('active');
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>斗地主游戏</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="game-container">
+        <h1>♠️♦️ 斗地主游戏 ♣️♥️</h1>
+
+        <div class="game-info">
+            <div class="status">游戏状态: <span id="game-status">准备中</span></div>
+            <button id="start-game" class="btn">开始游戏</button>
+        </div>
+
+        <div class="landlord-cards">
+            <h3>地主牌:</h3>
+            <div id="landlord-cards-container">
+                {% for card in landlord_cards %}
+                <div class="card landlord-card">{{ card }}</div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="player-area">
+            <h3>你的手牌:</h3>
+            <div id="player-cards-container">
+                {% for card in player_cards %}
+                <div class="card player-card" data-card="{{ card }}">{{ card }}</div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="controls">
+            <button id="play-cards" class="btn" disabled>出牌</button>
+            <button id="pass-turn" class="btn" disabled>不出</button>
+        </div>
+
+        <div class="play-history">
+            <h3>出牌记录:</h3>
+            <div id="last-play-container"></div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const playBtn = document.getElementById('play-cards');
+            const passBtn = document.getElementById('pass-turn');
+            const startBtn = document.getElementById('start-game');
+            let selectedCards = [];
+
+            // 选择牌
+            document.querySelectorAll('.player-card').forEach(card => {
+                card.addEventListener('click', function() {
+                    this.classList.toggle('selected');
+                    const cardValue = this.dataset.card;
+
+                    if(this.classList.contains('selected')) {
+                        selectedCards.push(cardValue);
+                    } else {
+                        selectedCards = selectedCards.filter(c => c !== cardValue);
+                    }
+
+                    playBtn.disabled = selectedCards.length === 0;
+                });
+            });
+
+            // 出牌
+            playBtn.addEventListener('click', function() {
+                fetch('/play', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({cards: selectedCards})
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if(data.status === 'success') {
+                        // 更新界面
+                        selectedCards.forEach(card => {
+                            const cardEl = document.querySelector(`.player-card[data-card="${card}"]`);
+                            cardEl.remove();
+                        });
+                        selectedCards = [];
+                        playBtn.disabled = true;
+
+                        // 显示出的牌
+                        const lastPlayContainer = document.getElementById('last-play-container');
+                        lastPlayContainer.innerHTML = data.last_play.map(card =>
+                            `<span class="played-card">${card}</span>`
+                        ).join('');
+
+                        document.getElementById('game-status').textContent = `玩家 ${data.next_player + 1} 的回合`;
+                    }
+                });
+            });
+
+            // 开始游戏
+            startBtn.addEventListener('click', function() {
+                window.location.reload();
+            });
+        });
+    </script>
+</body>
+</html>

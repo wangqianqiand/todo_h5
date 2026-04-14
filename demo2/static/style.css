@@ -1,0 +1,170 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, #4a752c, #2c4a1f);
+    color: white;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.game-container {
+    max-width: 800px;
+    margin: 0 auto;
+    background: rgba(0, 0, 0, 0.7);
+    border-radius: 15px;
+    padding: 30px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #f8d347;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.game-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+}
+
+.btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s;
+}
+
+.btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+#start-game {
+    background: #f8d347;
+    color: #333;
+}
+
+#play-cards, #pass-turn {
+    background: #e74c3c;
+    color: white;
+    margin: 0 10px;
+}
+
+#pass-turn {
+    background: #3498db;
+}
+
+.card {
+    display: inline-block;
+    width: 50px;
+    height: 80px;
+    margin: 2px;
+    background: white;
+    color: black;
+    border-radius: 6px;
+    text-align: center;
+    line-height: 80px;
+    font-size: 18px;
+    font-weight: bold;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+    transition: transform 0.2s;
+    position: relative;
+    z-index: 1;
+}
+
+.player-card:hover {
+    transform: translateY(-10px);
+}
+
+.player-card.selected {
+    transform: translateY(-20px);
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.4);
+}
+
+.landlord-card {
+    background: #f8d347;
+}
+
+.played-card {
+    display: inline-block;
+    padding: 5px 10px;
+    margin: 5px;
+    background: rgba(255, 255, 255, 0.9);
+    color: black;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+.player-area, .landlord-cards, .play-history {
+    margin: 20px 0;
+    padding: 15px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+}
+
+.controls {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+/* 手牌容器样式，让牌排列更紧凑 */
+#player-cards-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0;
+    max-width: 90%;
+    margin: 0 auto;
+}
+
+/* 地主牌样式 */
+#landlord-cards-container {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+}
+
+@media (max-width: 600px) {
+    .card {
+        width: 35px;
+        height: 55px;
+        line-height: 55px;
+        font-size: 14px;
+        margin: 1px;
+    }
+
+    #player-cards-container {
+        gap: 0;
+    }
+
+    .btn {
+        padding: 8px 15px;
+        font-size: 14px;
+    }
+}
+
+/* 牌的悬停效果优化 */
+.player-card:hover {
+    transform: translateY(-5px);
+    z-index: 10;
+}
+
+.player-card.selected {
+    transform: translateY(-15px);
+    z-index: 10;
+}
