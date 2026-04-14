@@ -658,6 +658,15 @@
             font-weight: 600;
         }
 
+        .repeat-badge {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            color: #666;
+            padding: 3px 10px;
+            border-radius: 10px;
+            font-size: 11px;
+            font-weight: 500;
+        }
+
         .delete-btn {
             width: 34px;
             height: 34px;
@@ -834,223 +843,46 @@
         .priority-option.medium { color: #feca57; }
         .priority-option.low { color: #48dbfb; }
 
-        .modal-buttons {
+        /* 重复选项 */
+        .repeat-options {
             display: flex;
             gap: 10px;
-            margin-top: 25px;
         }
 
-        .modal-btn {
+        .repeat-option {
             flex: 1;
-            height: 48px;
-            border: none;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
             border-radius: 12px;
-            font-size: 15px;
-            font-weight: 600;
+            text-align: center;
             cursor: pointer;
             transition: all 0.3s ease;
-        }
-
-        .modal-btn.cancel {
-            background: #f5f5f5;
+            font-size: 13px;
             color: #666;
         }
 
-        .modal-btn.confirm {
-            background: linear-gradient(135deg, #ffab6b 0%, #feca57 100%);
-            color: white;
-        }
-
-        /* Toast */
-        .toast {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: rgba(0,0,0,0.8);
-            color: white;
-            padding: 12px 24px;
-            border-radius: 10px;
-            font-size: 14px;
-            z-index: 2000;
-            display: none;
-        }
-
-        .toast.show {
+        .repeat-option i {
             display: block;
-            animation: fadeIn 0.3s ease;
+            font-size: 18px;
+            margin-bottom: 4px;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translate(-50%, -40%); }
-            to { opacity: 1; transform: translate(-50%, -50%); }
+        .repeat-option.selected {
+            border-color: #ff6b9d;
+            background: rgba(255,107,157,0.1);
+            color: #ff6b9d;
         }
 
-        /* 响应式 - 手机端优化 */
-        @media (max-width: 480px) {
-            body { padding: 10px; }
+        /* 重复标识 */
+        .repeat-badge {
+            font-size: 11px;
+            color: #ff6b9d;
+            display: flex;
+            align-items: center;
+            gap: 3px;
+        }
 
-            .container { max-width: 100%; }
-
-            /* 名言卡片 */
-            .quote-card {
-                padding: 18px 15px;
-                border-radius: 16px;
-                margin-bottom: 12px;
-            }
-            .quote-card::before,
-            .quote-card::after { font-size: 18px; }
-            .quote-text { font-size: 14px; line-height: 1.5; }
-            .quote-author { font-size: 12px; }
-
-            /* 头部卡片 */
-            .header-card {
-                padding: 18px 15px;
-                border-radius: 16px;
-                margin-bottom: 12px;
-            }
-
-            .header-top { margin-bottom: 18px; }
-            .title { font-size: 22px; }
-            .date { font-size: 12px; }
-
-            /* 统计卡片 */
-            .stats-grid {
-                grid-template-columns: repeat(4, 1fr);
-                gap: 8px;
-                margin-bottom: 15px;
-            }
-            .stat-card { padding: 12px 5px; border-radius: 12px; }
-            .stat-number { font-size: 20px; }
-            .stat-label { font-size: 11px; }
-
-            /* 进度条 */
-            .progress-section { margin-bottom: 15px; }
-            .progress-label { font-size: 12px; }
-            .progress-bar { height: 8px; }
-
-            /* 搜索框 */
-            .search-wrapper {
-                padding: 0 12px;
-                border-radius: 14px;
-            }
-            .search-input { height: 44px; font-size: 14px; }
-            .search-icon { font-size: 14px; }
-
-            /* 输入区域 */
-            .input-section { gap: 8px; }
-            .input-wrapper { min-width: auto; flex: 1; }
-            .todo-input {
-                height: 44px;
-                padding: 0 14px;
-                font-size: 14px;
-                border-radius: 12px;
-            }
-            .option-btn, .add-btn {
-                height: 44px;
-                width: 44px;
-                min-width: 44px;
-                padding: 0;
-                border-radius: 12px;
-            }
-
-            /* 分类标签 */
-            .category-section {
-                margin-top: 10px;
-                gap: 6px;
-            }
-            .category-tag {
-                padding: 6px 12px;
-                font-size: 12px;
-                border-radius: 16px;
-            }
-
-            /* 筛选区域 */
-            .filter-section {
-                margin-bottom: 12px;
-                gap: 8px;
-            }
-            .filter-tabs {
-                padding: 4px;
-                border-radius: 12px;
-            }
-            .filter-tab {
-                padding: 8px 10px;
-                font-size: 13px;
-                border-radius: 10px;
-            }
-            .dropdown-btn {
-                padding: 8px 14px;
-                font-size: 13px;
-                border-radius: 10px;
-            }
-
-            /* 待办列表 */
-            .todo-list { gap: 10px; }
-            .todo-item {
-                padding: 14px 15px;
-                border-radius: 14px;
-            }
-            .checkbox {
-                width: 22px;
-                height: 22px;
-                margin-right: 12px;
-            }
-            .todo-text { font-size: 14px; }
-            .todo-meta { gap: 6px; flex-wrap: wrap; }
-            .category-badge {
-                padding: 2px 8px;
-                font-size: 10px;
-            }
-            .priority-badge { font-size: 11px; }
-            .due-date { font-size: 10px; }
-            .subtask-toggle { font-size: 11px; padding: 3px 6px; }
-            .delete-btn {
-                width: 30px;
-                height: 30px;
-                font-size: 14px;
-            }
-
-            /* 子任务 */
-            .subtasks-section {
-                padding-left: 34px;
-                margin-top: 8px;
-            }
-            .subtask-item { padding: 6px 0; }
-            .subtask-checkbox {
-                width: 16px;
-                height: 16px;
-                margin-right: 8px;
-            }
-            .subtask-text { font-size: 12px; }
-            .subtask-input {
-                height: 28px;
-                font-size: 12px;
-            }
-            .subtask-add-btn {
-                width: 24px;
-                height: 24px;
-                font-size: 10px;
-            }
-
-            /* 空状态 */
-            .empty-state { padding: 50px 15px; }
-            .empty-icon {
-                width: 80px;
-                height: 80px;
-                font-size: 40px;
-            }
-            .empty-text { font-size: 18px; }
-            .empty-subtext { font-size: 13px; }
-
-            /* 清除按钮 */
-            .clear-section { margin-top: 20px; }
-            .clear-btn {
-                padding: 10px 22px;
-                font-size: 13px;
-            }
-
-            /* 弹窗 */
+        /* 弹窗 */
             .modal {
                 padding: 24px 20px;
                 border-radius: 20px;
@@ -1239,6 +1071,21 @@
                 </div>
             </div>
 
+            <div class="modal-section">
+                <label class="modal-label">重复</label>
+                <div class="repeat-options">
+                    <div class="repeat-option selected" data-repeat="none" onclick="selectRepeat('none')">
+                        <i class="fas fa-times-circle"></i> 不重复
+                    </div>
+                    <div class="repeat-option" data-repeat="daily" onclick="selectRepeat('daily')">
+                        <i class="fas fa-redo"></i> 每天
+                    </div>
+                    <div class="repeat-option" data-repeat="weekly" onclick="selectRepeat('weekly')">
+                        <i class="fas fa-calendar-week"></i> 每周
+                    </div>
+                </div>
+            </div>
+
             <div class="modal-buttons">
                 <button class="modal-btn cancel" onclick="closeModal()">取消</button>
                 <button class="modal-btn confirm" onclick="confirmAdd()">确定</button>
@@ -1249,98 +1096,392 @@
     <div class="toast" id="toast"></div>
 
     <script>
-        // 励志名言库
-        const quotes = [
-            { text: "种一棵树最好的时间是十年前，其次是现在。", author: "丹比萨·莫约" },
-            { text: "不积跬步，无以至千里；不积小流，无以成江海。", author: "荀子" },
-            { text: "星光不问赶路人，时光不负有心人。", author: "大冰" },
-            { text: "努力不一定成功，但放弃一定失败。", author: "姚明" },
-            { text: "每一个不曾起舞的日子，都是对生命的辜负。", author: "尼采" },
-            { text: "生活不是等待风暴过去，而是学会在雨中跳舞。", author: "维维安·格林" },
-            { text: "成功的路上并不拥挤，因为坚持的人不多。", author: "佚名" },
-            { text: "梦想不会逃跑，逃跑的永远只是不敢追梦的人。", author: "高桥步" },
-            { text: "与其临渊羡鱼，不如退而结网。", author: "汉书" },
-            { text: "路漫漫其修远兮，吾将上下而求索。", author: "屈原" },
-            { text: "天行健，君子以自强不息。", author: "周易" },
-            { text: "业精于勤，荒于嬉；行成于思，毁于随。", author: "韩愈" },
-            { text: "千里之行，始于足下。", author: "老子" },
-            { text: "宝剑锋从磨砺出，梅花香自苦寒来。", author: "警世贤文" },
-            { text: "只要功夫深，铁杵磨成针。", author: "中国谚语" },
-            { text: "锲而舍之，朽木不折；锲而不舍，金石可镂。", author: "荀子" },
-            { text: "书山有路勤为径，学海无涯苦作舟。", author: "韩愈" },
-            { text: "一分耕耘，一分收获。", author: "谚语" },
-            { text: "世上无难事，只怕有心人。", author: "毛泽东" },
-            { text: "生活就像海洋，只有意志坚强的人，才能到达彼岸。", author: "马克思" },
-            { text: "不要等待机会，而要创造机会。", author: "乔治·萧伯纳" },
-            { text: "行动是治愈恐惧的良药，而犹豫拖延将不断滋养恐惧。", author: "戴尔·卡耐基" },
-            { text: "成功的秘诀在于永不改变既定的目标。", author: "卢梭" },
-            { text: "即使爬到最高的山上，一次也只能脚踏实地地迈一步。", author: "佚名" },
-            { text: "你的时间有限，不要为别人而活。", author: "史蒂夫·乔布斯" },
-            { text: "保持饥饿，保持愚蠢。", author: "史蒂夫·乔布斯" },
-            { text: "今天是你余生的第一天。", author: "查尔斯·狄更斯" },
-            { text: "最好的投资就是投资自己。", author: "沃伦·巴菲特" },
-            { text: "不要等待完美时刻，抓住时刻让它完美。", author: "佚名" },
-            { text: "相信自己，你比你想象的更强大。", author: "佚名" },
-            { text: "每一天都是新的开始。", author: "佚名" },
-            { text: "只有不断找寻机会的人才会及时把握机会。", author: "佚名" },
-            { text: "凡事预则立，不预则废。", author: "礼记" },
-            { text: "少壮不努力，老大徒伤悲。", author: "长歌行" },
-            { text: "黑发不知勤学早，白首方悔读书迟。", author: "颜真卿" },
-            { text: "莫等闲，白了少年头，空悲切。", author: "岳飞" },
-            { text: "明日复明日，明日何其多。", author: "钱福" },
-            { text: "一寸光阴一寸金，寸金难买寸光阴。", author: "增广贤文" }
-        ];
+        // ==================== CONFIG 配置层 ====================
+        const CONFIG = {
+            QUOTES: [
+                { text: "种一棵树最好的时间是十年前，其次是现在。", author: "丹比萨·莫约" },
+                { text: "不积跬步，无以至千里；不积小流，无以成江海。", author: "荀子" },
+                { text: "星光不问赶路人，时光不负有心人。", author: "大冰" },
+                { text: "努力不一定成功，但放弃一定失败。", author: "姚明" },
+                { text: "每一个不曾起舞的日子，都是对生命的辜负。", author: "尼采" },
+                { text: "生活不是等待风暴过去，而是学会在雨中跳舞。", author: "维维安·格林" },
+                { text: "成功的路上并不拥挤，因为坚持的人不多。", author: "佚名" },
+                { text: "梦想不会逃跑，逃跑的永远只是不敢追梦的人。", author: "高桥步" },
+                { text: "与其临渊羡鱼，不如退而结网。", author: "汉书" },
+                { text: "路漫漫其修远兮，吾将上下而求索。", author: "屈原" },
+                { text: "天行健，君子以自强不息。", author: "周易" },
+                { text: "业精于勤，荒于嬉；行成于思，毁于随。", author: "韩愈" },
+                { text: "千里之行，始于足下。", author: "老子" },
+                { text: "宝剑锋从磨砺出，梅花香自苦寒来。", author: "警世贤文" },
+                { text: "只要功夫深，铁杵磨成针。", author: "中国谚语" },
+                { text: "锲而舍之，朽木不折；锲而不舍，金石可镂。", author: "荀子" },
+                { text: "书山有路勤为径，学海无涯苦作舟。", author: "韩愈" },
+                { text: "一分耕耘，一分收获。", author: "谚语" },
+                { text: "世上无难事，只怕有心人。", author: "毛泽东" },
+                { text: "生活就像海洋，只有意志坚强的人，才能到达彼岸。", author: "马克思" },
+                { text: "不要等待机会，而要创造机会。", author: "乔治·萧伯纳" },
+                { text: "行动是治愈恐惧的良药，而犹豫拖延将不断滋养恐惧。", author: "戴尔·卡耐基" },
+                { text: "成功的秘诀在于永不改变既定的目标。", author: "卢梭" },
+                { text: "即使爬到最高的山上，一次也只能脚踏实地地迈一步。", author: "佚名" },
+                { text: "你的时间有限，不要为别人而活。", author: "史蒂夫·乔布斯" },
+                { text: "保持饥饿，保持愚蠢。", author: "史蒂夫·乔布斯" },
+                { text: "今天是你余生的第一天。", author: "查尔斯·狄更斯" },
+                { text: "最好的投资就是投资自己。", author: "沃伦·巴菲特" },
+                { text: "不要等待完美时刻，抓住时刻让它完美。", author: "佚名" },
+                { text: "相信自己，你比你想象的更强大。", author: "佚名" },
+                { text: "每一天都是新的开始。", author: "佚名" },
+                { text: "只有不断找寻机会的人才会及时把握机会。", author: "佚名" },
+                { text: "凡事预则立，不预则废。", author: "礼记" },
+                { text: "少壮不努力，老大徒伤悲。", author: "长歌行" },
+                { text: "黑发不知勤学早，白首方悔读书迟。", author: "颜真卿" },
+                { text: "莫等闲，白了少年头，空悲切。", author: "岳飞" },
+                { text: "明日复明日，明日何其多。", author: "钱福" },
+                { text: "一寸光阴一寸金，寸金难买寸光阴。", author: "增广贤文" }
+            ],
+            CATEGORY_MAP: { work: '💼', life: '🏠', study: '📚', other: '📦' },
+            CATEGORY_NAME: { work: '工作', life: '生活', study: '学习', other: '其他' },
+            PRIORITY_MAP: { high: '🔴', medium: '🟡', low: '🔵' },
+            PRIORITY_NAME: { high: '高', medium: '中', low: '低' },
+            REPEAT_LABEL: { daily: '🔄 每天', weekly: '📅 每周' },
+            REPEAT_DAYS: { daily: 1, weekly: 7 },
+            STORAGE_KEY: 'todos',
+            LAST_CHECK_KEY: 'lastRepeatCheck'
+        };
 
-        function getTodayQuote() {
-            const today = new Date();
-            const dayOfYear = Math.floor((today - new Date(today.getFullYear(), 0, 0)) / (1000 * 60 * 60 * 24));
-            return quotes[dayOfYear % quotes.length];
-        }
+        // ==================== State 状态管理 ====================
+        const State = {
+            todos: [],
+            currentFilter: 'all',
+            categoryFilter: null,
+            priorityFilter: null,
+            searchKeyword: '',
+            selectedCategory: 'work',
+            selectedPriority: 'medium',
+            selectedRepeat: 'none',
+            expandedTodos: new Set()
+        };
 
-        function displayQuote() {
-            const quote = getTodayQuote();
-            document.getElementById('quoteText').textContent = '"' + quote.text + '"';
-            document.getElementById('quoteAuthor').textContent = '—— ' + quote.author;
-        }
+        // ==================== QuoteService 名言服务 ====================
+        const QuoteService = {
+            getRandom() {
+                const idx = Math.floor(Math.random() * CONFIG.QUOTES.length);
+                return CONFIG.QUOTES[idx];
+            },
+            display() {
+                const q = this.getRandom();
+                document.getElementById('quoteText').textContent = '"' + q.text + '"';
+                document.getElementById('quoteAuthor').textContent = '—— ' + q.author;
+            }
+        };
 
-        let todos = JSON.parse(localStorage.getItem('todos')) || [];
-        let currentFilter = 'all';
-        let categoryFilter = null;
-        let priorityFilter = null;
-        let searchKeyword = '';
-        let selectedCategory = 'work';
-        let selectedPriority = 'medium';
-        let expandedTodos = new Set(); // 记录展开的待办ID
+        // ==================== DataStore 数据层 ====================
+        const DataStore = {
+            load() {
+                State.todos = JSON.parse(localStorage.getItem(CONFIG.STORAGE_KEY)) || [];
+            },
+            save() {
+                localStorage.setItem(CONFIG.STORAGE_KEY, JSON.stringify(State.todos));
+            },
+            getLastCheck() {
+                return localStorage.getItem(CONFIG.LAST_CHECK_KEY);
+            },
+            setLastCheck(date) {
+                localStorage.setItem(CONFIG.LAST_CHECK_KEY, date);
+            }
+        };
 
-        init();
+        // ==================== TodoService 业务逻辑层 ====================
+        const TodoService = {
+            init() {
+                DataStore.load();
+            },
 
+            add(todo) {
+                State.todos.unshift(todo);
+                DataStore.save();
+            },
+
+            update(id, updater) {
+                State.todos = State.todos.map(item => item.id === id ? updater(item) : item);
+                DataStore.save();
+            },
+
+            delete(id) {
+                State.todos = State.todos.filter(item => item.id !== id);
+                DataStore.save();
+            },
+
+            toggle(id) {
+                this.update(id, item => ({ ...item, completed: !item.completed }));
+            },
+
+            clearCompleted() {
+                State.todos = State.todos.filter(item => !item.completed);
+                DataStore.save();
+            },
+
+            addSubtask(todoId, text) {
+                this.update(todoId, item => ({
+                    ...item,
+                    subtasks: [...(item.subtasks || []), { text, completed: false }]
+                }));
+            },
+
+            toggleSubtask(todoId, index) {
+                this.update(todoId, item => {
+                    if (!item.subtasks || !item.subtasks[index]) return item;
+                    const newSubtasks = [...item.subtasks];
+                    newSubtasks[index] = { ...newSubtasks[index], completed: !newSubtasks[index].completed };
+                    return { ...item, subtasks: newSubtasks };
+                });
+            },
+
+            deleteSubtask(todoId, index) {
+                this.update(todoId, item => ({
+                    ...item,
+                    subtasks: item.subtasks ? item.subtasks.filter((_, i) => i !== index) : []
+                }));
+            },
+
+            getFiltered() {
+                let filtered = [...State.todos];
+                if (State.currentFilter === 'active') filtered = filtered.filter(i => !i.completed);
+                if (State.currentFilter === 'completed') filtered = filtered.filter(i => i.completed);
+                if (State.categoryFilter) filtered = filtered.filter(i => i.category === State.categoryFilter);
+                if (State.priorityFilter) filtered = filtered.filter(i => i.priority === State.priorityFilter);
+                if (State.searchKeyword) filtered = filtered.filter(i => i.text.toLowerCase().includes(State.searchKeyword.toLowerCase()));
+                return filtered.sort((a, b) => {
+                    if (a.completed !== b.completed) return a.completed ? 1 : -1;
+                    const pMap = { high: 3, medium: 2, low: 1 };
+                    return pMap[b.priority] - pMap[a.priority];
+                });
+            },
+
+            getStats() {
+                const total = State.todos.length;
+                const completed = State.todos.filter(i => i.completed).length;
+                const overdue = State.todos.filter(i => !i.completed && DateUtil.isOverdue(i.dueDate)).length;
+                return { total, completed, active: total - completed, overdue, progress: total > 0 ? Math.round((completed / total) * 100) : 0 };
+            },
+
+            checkAndGenerateRepeats() {
+                const today = new Date().toDateString();
+                const lastCheck = DataStore.getLastCheck();
+                if (lastCheck === today) return;
+
+                let newAdded = false;
+                const todayStr = new Date().toISOString().split('T')[0];
+
+                State.todos.forEach(todo => {
+                    if (!todo.repeat || todo.repeat === 'none') return;
+
+                    const daysDiff = DateUtil.diffDays(todo.dueDate, new Date());
+                    const repeatDays = CONFIG.REPEAT_DAYS[todo.repeat];
+
+                    if (daysDiff > 0 && daysDiff % repeatDays === 0) {
+                        const exists = State.todos.find(t =>
+                            t.text === todo.text &&
+                            t.repeat === 'none' &&
+                            DateUtil.isSameDay(t.dueDate, new Date())
+                        );
+
+                        if (!exists) {
+                            State.todos.unshift({
+                                id: Date.now() + Math.random(),
+                                text: todo.text,
+                                completed: false,
+                                category: todo.category,
+                                priority: todo.priority,
+                                dueDate: todayStr,
+                                subtasks: [],
+                                repeat: 'none',
+                                createTime: DateUtil.formatNow()
+                            });
+                            newAdded = true;
+                        }
+                    }
+                });
+
+                if (newAdded) {
+                    DataStore.save();
+                    UIUtil.showToast('已生成今日重复任务！');
+                }
+                DataStore.setLastCheck(today);
+            }
+        };
+
+        // ==================== DateUtil 日期工具 ====================
+        const DateUtil = {
+            isOverdue(dueDate) {
+                if (!dueDate) return false;
+                const today = new Date(); today.setHours(0,0,0,0);
+                const due = new Date(dueDate); due.setHours(0,0,0,0);
+                return due < today;
+            },
+
+            isToday(dueDate) {
+                if (!dueDate) return false;
+                return new Date().toDateString() === new Date(dueDate).toDateString();
+            },
+
+            isSameDay(date1, date2) {
+                return new Date(date1).toDateString() === new Date(date2).toDateString();
+            },
+
+            diffDays(date1, date2) {
+                const d1 = new Date(date1); d1.setHours(0,0,0,0);
+                const d2 = new Date(date2); d2.setHours(0,0,0,0);
+                return Math.floor((d2 - d1) / (1000 * 60 * 60 * 24));
+            },
+
+            getLabel(dueDate) {
+                if (!dueDate) return '';
+                if (this.isOverdue(dueDate)) return '已过期';
+                if (this.isToday(dueDate)) return '今天';
+                const d = new Date(dueDate);
+                return (d.getMonth() + 1) + '/' + d.getDate();
+            },
+
+            formatNow() {
+                return new Date().toLocaleString('zh-CN', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+            },
+
+            formatDate(date) {
+                const opts = { year: 'numeric', month: 'long', day: 'numeric', weekday: 'long' };
+                return date.toLocaleDateString('zh-CN', opts);
+            }
+        };
+
+        // ==================== UIUtil UI工具 ====================
+        const UIUtil = {
+            escapeHtml(text) {
+                const div = document.createElement('div');
+                div.textContent = text;
+                return div.innerHTML;
+            },
+
+            showToast(message) {
+                const toast = document.getElementById('toast');
+                toast.textContent = message;
+                toast.classList.add('show');
+                setTimeout(() => toast.classList.remove('show'), 1500);
+            },
+
+            updateDateDisplay() {
+                document.getElementById('currentDate').textContent = DateUtil.formatDate(new Date());
+            },
+
+            toggleDropdown() {
+                document.getElementById('dropdownMenu').classList.toggle('show');
+            },
+
+            closeDropdown() {
+                document.getElementById('dropdownMenu').classList.remove('show');
+            }
+        };
+
+        // ==================== Renderer 渲染层 ====================
+        const Renderer = {
+            stats() {
+                const stats = TodoService.getStats();
+                document.getElementById('totalCount').textContent = stats.total;
+                document.getElementById('activeCount').textContent = stats.active;
+                document.getElementById('completedCount').textContent = stats.completed;
+                document.getElementById('overdueCount').textContent = stats.overdue;
+                document.getElementById('progressText').textContent = stats.progress + '%';
+                document.getElementById('progressFill').style.width = stats.progress + '%';
+                document.getElementById('clearSection').style.display = (stats.completed > 0 && State.currentFilter !== 'active') ? 'block' : 'none';
+            },
+
+            todoList() {
+                const list = document.getElementById('todoList');
+                const empty = document.getElementById('emptyState');
+                const filtered = TodoService.getFiltered();
+
+                if (filtered.length === 0) {
+                    list.style.display = 'none';
+                    empty.style.display = 'block';
+                    return;
+                }
+
+                list.style.display = 'flex';
+                empty.style.display = 'none';
+
+                list.innerHTML = filtered.map(item => this.todoItem(item)).join('');
+            },
+
+            todoItem(item) {
+                const { CATEGORY_MAP, CATEGORY_NAME, PRIORITY_MAP, PRIORITY_NAME, REPEAT_LABEL } = CONFIG;
+                const dueLabel = DateUtil.getLabel(item.dueDate);
+                const dueClass = DateUtil.isOverdue(item.dueDate) ? 'overdue' : (DateUtil.isToday(item.dueDate) ? 'today' : '');
+                const subtasks = item.subtasks || [];
+                const completedSubtasks = subtasks.filter(s => s.completed).length;
+                const isExpanded = State.expandedTodos.has(item.id);
+                const repeatBadge = (item.repeat && item.repeat !== 'none') ? '<span class="repeat-badge">' + REPEAT_LABEL[item.repeat] + '</span>' : '';
+
+                let subtasksHtml = '';
+                if (subtasks.length > 0 || isExpanded) {
+                    subtasksHtml = this.subtasksSection(item, subtasks, isExpanded);
+                }
+
+                const subtaskSummary = subtasks.length > 0
+                    ? `<span class="subtask-toggle" onclick="toggleSubtaskSection(${item.id})">${isExpanded ? '收起' : '展开'} (${completedSubtasks}/${subtasks.length})</span>`
+                    : `<span class="subtask-toggle" onclick="toggleSubtaskSection(${item.id})">+ 子任务</span>`;
+
+                return `<div class="todo-item priority-${item.priority}${item.completed ? ' completed' : ''}">
+                    <div class="checkbox ${item.completed ? 'checked' : ''}" onclick="toggleTodo(${item.id})">${item.completed ? '<i class="fas fa-check"></i>' : ''}</div>
+                    <div class="todo-content">
+                        <div class="todo-text">${UIUtil.escapeHtml(item.text)}</div>
+                        <div class="todo-meta">
+                            <span class="category-badge ${item.category}">${CATEGORY_MAP[item.category]} ${CATEGORY_NAME[item.category]}</span>
+                            <span class="priority-badge priority-${item.priority}">${PRIORITY_MAP[item.priority]} ${PRIORITY_NAME[item.priority]}</span>
+                            ${dueLabel ? `<span class="due-date ${dueClass}"><i class="far fa-calendar"></i> ${dueLabel}</span>` : ''}
+                            ${repeatBadge}${subtaskSummary}
+                        </div>${subtasksHtml}
+                    </div>
+                    <div class="delete-btn" onclick="deleteTodo(${item.id})"><i class="fas fa-times"></i></div>
+                </div>`;
+            },
+
+            subtasksSection(item, subtasks, isExpanded) {
+                let html = `<div class="subtasks-section" id="subtasks-${item.id}" style="display: ${isExpanded ? 'block' : 'none'}">`;
+                subtasks.forEach((sub, idx) => {
+                    html += `<div class="subtask-item ${sub.completed ? 'completed' : ''}">
+                        <div class="subtask-checkbox ${sub.completed ? 'checked' : ''}" onclick="toggleSubtask(${item.id}, ${idx})">${sub.completed ? '<i class="fas fa-check"></i>' : ''}</div>
+                        <span class="subtask-text">${UIUtil.escapeHtml(sub.text)}</span>
+                        <span class="subtask-delete" onclick="deleteSubtask(${item.id}, ${idx})"><i class="fas fa-times"></i></span>
+                    </div>`;
+                });
+                html += `<div class="subtask-add">
+                    <input type="text" class="subtask-input" id="subtaskInput-${item.id}" placeholder="添加子任务..." onkeypress="if(event.key==='Enter')addSubtask(${item.id})">
+                    <button class="subtask-add-btn" onclick="addSubtask(${item.id})"><i class="fas fa-plus"></i></button>
+                </div></div>`;
+                return html;
+            },
+
+            all() {
+                this.stats();
+                this.todoList();
+            }
+        };
+
+        // ==================== Event Handlers 事件处理 (保持全局函数名供HTML调用) ====================
         function init() {
-            displayQuote();
-            updateDate();
-            render();
-            document.getElementById('todoInput').addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') addTodo();
-            });
+            TodoService.init();
+            QuoteService.display();
+            UIUtil.updateDateDisplay();
+            TodoService.checkAndGenerateRepeats();
+            Renderer.all();
+            document.getElementById('todoInput').addEventListener('keypress', e => { if (e.key === 'Enter') addTodo(); });
         }
 
-        function updateDate() {
-            const date = new Date();
-            const options = { year: 'numeric', month: 'long', day: 'numeric', weekday: 'long' };
-            document.getElementById('currentDate').textContent = date.toLocaleDateString('zh-CN', options);
-        }
+        function render() { Renderer.all(); }
+        function saveAndRender() { Renderer.all(); }
 
-        function quickSelectCategory(cat) {
-            selectedCategory = cat;
-            document.querySelectorAll('.category-tag').forEach(tag => {
-                tag.classList.remove('active');
-                if (tag.dataset.cat === cat) tag.classList.add('active');
-            });
-        }
-
+        // Modal & Form
         function addTodo() {
-            const input = document.getElementById('todoInput');
-            const text = input.value.trim();
-            if (!text) { showToast('请输入待办内容'); return; }
+            const text = document.getElementById('todoInput').value.trim();
+            if (!text) { UIUtil.showToast('请输入待办内容'); return; }
             openModal(text);
         }
 
@@ -1353,186 +1494,123 @@
         function closeModal() { document.getElementById('modalOverlay').classList.remove('show'); }
         function closeModalOnOverlay(e) { if (e.target === document.getElementById('modalOverlay')) closeModal(); }
 
-        function selectPriority(priority) {
-            selectedPriority = priority;
-            document.querySelectorAll('.priority-option').forEach(opt => {
-                opt.classList.remove('selected');
-                if (opt.dataset.priority === priority) opt.classList.add('selected');
-            });
-        }
-
         function confirmAdd() {
             const text = document.getElementById('modalInput').value.trim();
             const category = document.getElementById('modalCategory').value;
             const dueDate = document.getElementById('modalDate').value;
-            if (!text) { showToast('请输入待办内容'); return; }
-            const todo = { id: Date.now(), text: text, completed: false, category: category, priority: selectedPriority, dueDate: dueDate, subtasks: [], createTime: new Date().toLocaleString('zh-CN', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' }) };
-            todos.unshift(todo);
+            if (!text) { UIUtil.showToast('请输入待办内容'); return; }
+
+            TodoService.add({
+                id: Date.now(),
+                text, completed: false, category,
+                priority: State.selectedPriority,
+                dueDate, subtasks: [],
+                repeat: State.selectedRepeat,
+                createTime: DateUtil.formatNow()
+            });
+
             document.getElementById('todoInput').value = '';
+            State.selectedRepeat = 'none';
+            document.querySelectorAll('.repeat-option').forEach(opt => { opt.classList.remove('selected'); if (opt.dataset.repeat === 'none') opt.classList.add('selected'); });
             closeModal();
-            saveAndRender();
-            showToast('添加成功！');
+            Renderer.all();
+            UIUtil.showToast('添加成功！');
         }
 
-        function toggleTodo(id) {
-            todos = todos.map(item => { if (item.id === id) return { ...item, completed: !item.completed }; return item; });
-            saveAndRender();
+        // Selection
+        function quickSelectCategory(cat) {
+            State.selectedCategory = cat;
+            document.querySelectorAll('.category-tag').forEach(tag => {
+                tag.classList.toggle('active', tag.dataset.cat === cat);
+            });
         }
 
-        function deleteTodo(id) {
-            if (confirm('确定删除这条待办吗？')) {
-                todos = todos.filter(item => item.id !== id);
-                saveAndRender();
-                showToast('已删除');
-            }
+        function selectPriority(priority) {
+            State.selectedPriority = priority;
+            document.querySelectorAll('.priority-option').forEach(opt => {
+                opt.classList.toggle('selected', opt.dataset.priority === priority);
+            });
         }
+
+        function selectRepeat(repeat) {
+            State.selectedRepeat = repeat;
+            document.querySelectorAll('.repeat-option').forEach(opt => {
+                opt.classList.toggle('selected', opt.dataset.repeat === repeat);
+            });
+        }
+
+        // Todo Actions
+        function toggleTodo(id) { TodoService.toggle(id); Renderer.all(); }
+        function deleteTodo(id) { if (confirm('确定删除这条待办吗？')) { TodoService.delete(id); Renderer.all(); UIUtil.showToast('已删除'); } }
 
         function clearCompleted() {
-            const completedCount = todos.filter(item => item.completed).length;
-            if (!completedCount) return;
-            if (confirm('确定清除 ' + completedCount + ' 条已完成的待办吗？')) {
-                todos = todos.filter(item => !item.completed);
-                saveAndRender();
-                showToast('清除成功！');
+            const count = State.todos.filter(i => i.completed).length;
+            if (!count) return;
+            if (confirm(`确定清除 ${count} 条已完成的待办吗？`)) {
+                TodoService.clearCompleted();
+                Renderer.all();
+                UIUtil.showToast('清除成功！');
             }
         }
 
+        // Filtering
         function setFilter(filter) {
-            currentFilter = filter;
-            document.querySelectorAll('.filter-tab').forEach(tab => { tab.classList.remove('active'); if (tab.dataset.filter === filter) tab.classList.add('active'); });
-            render();
+            State.currentFilter = filter;
+            document.querySelectorAll('.filter-tab').forEach(tab => tab.classList.toggle('active', tab.dataset.filter === filter));
+            Renderer.all();
         }
 
-        function toggleDropdown() { document.getElementById('dropdownMenu').classList.toggle('show'); }
-        function setCategoryFilter(cat) { categoryFilter = cat; priorityFilter = null; document.getElementById('dropdownMenu').classList.remove('show'); render(); }
-        function setPriorityFilter(priority) { priorityFilter = priority; categoryFilter = null; document.getElementById('dropdownMenu').classList.remove('show'); render(); }
-        function saveAndRender() { localStorage.setItem('todos', JSON.stringify(todos)); render(); }
+        function toggleDropdown() { UIUtil.toggleDropdown(); }
+        function setCategoryFilter(cat) { State.categoryFilter = cat; State.priorityFilter = null; UIUtil.closeDropdown(); Renderer.all(); }
+        function setPriorityFilter(priority) { State.priorityFilter = priority; State.categoryFilter = null; UIUtil.closeDropdown(); Renderer.all(); }
 
-        function isOverdue(dueDate) {
-            if (!dueDate) return false;
-            const today = new Date(); today.setHours(0,0,0,0);
-            const due = new Date(dueDate); due.setHours(0,0,0,0);
-            return due < today;
-        }
-
-        function isToday(dueDate) {
-            if (!dueDate) return false;
-            return new Date().toDateString() === new Date(dueDate).toDateString();
-        }
-
-        function getDueDateLabel(dueDate) {
-            if (!dueDate) return '';
-            if (isOverdue(dueDate)) return '已过期';
-            if (isToday(dueDate)) return '今天';
-            const date = new Date(dueDate);
-            return (date.getMonth() + 1) + '/' + date.getDate();
-        }
-
-        function render() {
-            const todoList = document.getElementById('todoList'), emptyState = document.getElementById('emptyState'), clearSection = document.getElementById('clearSection');
-            let filtered = todos;
-            if (currentFilter === 'active') filtered = filtered.filter(i => !i.completed);
-            if (currentFilter === 'completed') filtered = filtered.filter(i => i.completed);
-            if (categoryFilter) filtered = filtered.filter(i => i.category === categoryFilter);
-            if (priorityFilter) filtered = filtered.filter(i => i.priority === priorityFilter);
-            if (searchKeyword) filtered = filtered.filter(i => i.text.toLowerCase().includes(searchKeyword.toLowerCase()));
-            const total = todos.length, completed = todos.filter(i => i.completed).length, active = total - completed, overdue = todos.filter(i => !i.completed && isOverdue(i.dueDate)).length, progress = total > 0 ? Math.round((completed / total) * 100) : 0;
-            document.getElementById('totalCount').textContent = total;
-            document.getElementById('activeCount').textContent = active;
-            document.getElementById('completedCount').textContent = completed;
-            document.getElementById('overdueCount').textContent = overdue;
-            document.getElementById('progressText').textContent = progress + '%';
-            document.getElementById('progressFill').style.width = progress + '%';
-            clearSection.style.display = (completed > 0 && currentFilter !== 'active') ? 'block' : 'none';
-            if (filtered.length === 0) { todoList.style.display = 'none'; emptyState.style.display = 'block'; return; }
-            todoList.style.display = 'flex'; emptyState.style.display = 'none';
-            filtered.sort((a, b) => { if (a.completed !== b.completed) return a.completed ? 1 : -1; const pMap = { high: 3, medium: 2, low: 1 }; return pMap[b.priority] - pMap[a.priority]; });
-            const catMap = { work: '💼', life: '🏠', study: '📚', other: '📦' }, pMap = { high: '🔴', medium: '🟡', low: '🔵' };
-            const catName = { work: '工作', life: '生活', study: '学习', other: '其他' }, pName = { high: '高', medium: '中', low: '低' };
-            todoList.innerHTML = filtered.map(item => {
-                const dueLabel = getDueDateLabel(item.dueDate), dueClass = isOverdue(item.dueDate) ? 'overdue' : (isToday(item.dueDate) ? 'today' : '');
-                const subtasks = item.subtasks || [];
-                const completedSubtasks = subtasks.filter(s => s.completed).length;
-                const isExpanded = expandedTodos.has(item.id);
-                let subtasksHtml = '';
-                if (subtasks.length > 0 || isExpanded) {
-                    subtasksHtml = '<div class="subtasks-section" id="subtasks-' + item.id + '" style="display: ' + (isExpanded ? 'block' : 'none') + '">';
-                    subtasks.forEach((subtask, index) => {
-                        subtasksHtml += '<div class="subtask-item ' + (subtask.completed ? 'completed' : '') + '"><div class="subtask-checkbox ' + (subtask.completed ? 'checked' : '') + '" onclick="toggleSubtask(' + item.id + ', ' + index + ')">' + (subtask.completed ? '<i class="fas fa-check"></i>' : '') + '</div><span class="subtask-text">' + escapeHtml(subtask.text) + '</span><span class="subtask-delete" onclick="deleteSubtask(' + item.id + ', ' + index + ')"><i class="fas fa-times"></i></span></div>';
-                    });
-                    subtasksHtml += '<div class="subtask-add"><input type="text" class="subtask-input" id="subtaskInput-' + item.id + '" placeholder="添加子任务..." onkeypress="if(event.key===\'Enter\')addSubtask(' + item.id + ')"><button class="subtask-add-btn" onclick="addSubtask(' + item.id + ')"><i class="fas fa-plus"></i></button></div>';
-                    subtasksHtml += '</div>';
-                }
-                const subtaskSummary = subtasks.length > 0 ? '<span class="subtask-toggle" onclick="toggleSubtaskSection(' + item.id + ')">' + (isExpanded ? '收起' : '展开') + ' (' + completedSubtasks + '/' + subtasks.length + ')</span>' : '<span class="subtask-toggle" onclick="toggleSubtaskSection(' + item.id + ')">+ 子任务</span>';
-                return '<div class="todo-item priority-' + item.priority + (item.completed ? ' completed' : '') + '"><div class="checkbox ' + (item.completed ? 'checked' : '') + '" onclick="toggleTodo(' + item.id + ')">' + (item.completed ? '<i class="fas fa-check"></i>' : '') + '</div><div class="todo-content"><div class="todo-text">' + escapeHtml(item.text) + '</div><div class="todo-meta"><span class="category-badge ' + item.category + '">' + catMap[item.category] + ' ' + catName[item.category] + '</span><span class="priority-badge priority-' + item.priority + '">' + pMap[item.priority] + ' ' + pName[item.priority] + '</span>' + (dueLabel ? '<span class="due-date ' + dueClass + '"><i class="far fa-calendar"></i> ' + dueLabel + '</span>' : '') + subtaskSummary + '</div>' + subtasksHtml + '</div><div class="delete-btn" onclick="deleteTodo(' + item.id + ')"><i class="fas fa-times"></i></div></div>';
-            }).join('');
-        }
-
-        function escapeHtml(text) { const div = document.createElement('div'); div.textContent = text; return div.innerHTML; }
-        function showToast(message) { const toast = document.getElementById('toast'); toast.textContent = message; toast.classList.add('show'); setTimeout(() => toast.classList.remove('show'), 1500); }
-        document.addEventListener('click', function(e) { if (!e.target.closest('.filter-dropdown')) document.getElementById('dropdownMenu').classList.remove('show'); });
-
-        // 搜索功能
+        // Search
         function handleSearch(keyword) {
-            searchKeyword = keyword.trim();
-            document.getElementById('searchClear').style.display = searchKeyword ? 'block' : 'none';
-            render();
+            State.searchKeyword = keyword.trim();
+            document.getElementById('searchClear').style.display = State.searchKeyword ? 'block' : 'none';
+            Renderer.all();
         }
 
         function clearSearch() {
             document.getElementById('searchInput').value = '';
-            searchKeyword = '';
+            State.searchKeyword = '';
             document.getElementById('searchClear').style.display = 'none';
-            render();
+            Renderer.all();
         }
 
-        // 子任务功能
+        // Subtasks
         function toggleSubtaskSection(todoId) {
-            if (expandedTodos.has(todoId)) {
-                expandedTodos.delete(todoId);
-            } else {
-                expandedTodos.add(todoId);
-            }
-            render();
+            if (State.expandedTodos.has(todoId)) State.expandedTodos.delete(todoId);
+            else State.expandedTodos.add(todoId);
+            Renderer.all();
         }
 
         function toggleSubtask(todoId, subtaskIndex) {
-            todos = todos.map(item => {
-                if (item.id === todoId && item.subtasks && item.subtasks[subtaskIndex]) {
-                    const newSubtasks = [...item.subtasks];
-                    newSubtasks[subtaskIndex] = { ...newSubtasks[subtaskIndex], completed: !newSubtasks[subtaskIndex].completed };
-                    return { ...item, subtasks: newSubtasks };
-                }
-                return item;
-            });
-            saveAndRender();
+            TodoService.toggleSubtask(todoId, subtaskIndex);
+            Renderer.all();
         }
 
         function addSubtask(todoId) {
             const input = document.getElementById('subtaskInput-' + todoId);
             const text = input.value.trim();
-            if (!text) { showToast('请输入子任务内容'); return; }
-            todos = todos.map(item => {
-                if (item.id === todoId) {
-                    const newSubtasks = [...(item.subtasks || []), { text: text, completed: false }];
-                    return { ...item, subtasks: newSubtasks };
-                }
-                return item;
-            });
-            expandedTodos.add(todoId);
-            saveAndRender();
+            if (!text) { UIUtil.showToast('请输入子任务内容'); return; }
+            TodoService.addSubtask(todoId, text);
+            State.expandedTodos.add(todoId);
+            Renderer.all();
         }
 
         function deleteSubtask(todoId, subtaskIndex) {
-            todos = todos.map(item => {
-                if (item.id === todoId && item.subtasks) {
-                    const newSubtasks = item.subtasks.filter((_, i) => i !== subtaskIndex);
-                    return { ...item, subtasks: newSubtasks };
-                }
-                return item;
-            });
-            saveAndRender();
+            TodoService.deleteSubtask(todoId, subtaskIndex);
+            Renderer.all();
         }
+
+        // Global click handler
+        document.addEventListener('click', e => {
+            if (!e.target.closest('.filter-dropdown')) UIUtil.closeDropdown();
+        });
+
+        // Initialize
+        init();
     </script>
 </body>
 </html>
