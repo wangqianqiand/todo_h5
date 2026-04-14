@@ -286,6 +286,169 @@
             transform: scale(1.05);
         }
 
+        /* 搜索框 */
+        .search-section {
+            margin-bottom: 12px;
+        }
+
+        .search-wrapper {
+            position: relative;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            display: flex;
+            align-items: center;
+            padding: 0 16px;
+        }
+
+        .search-icon {
+            color: #888;
+            font-size: 16px;
+            margin-right: 10px;
+        }
+
+        .search-input {
+            flex: 1;
+            height: 48px;
+            border: none;
+            background: transparent;
+            font-size: 15px;
+            color: #333;
+            outline: none;
+        }
+
+        .search-input::placeholder {
+            color: #aaa;
+        }
+
+        .search-clear {
+            color: #888;
+            font-size: 14px;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        .search-clear:hover {
+            color: #ff6b9d;
+        }
+
+        /* 子任务样式 */
+        .subtasks-section {
+            margin-top: 10px;
+            padding-left: 37px;
+        }
+
+        .subtask-item {
+            display: flex;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px dashed #eee;
+        }
+
+        .subtask-item:last-child {
+            border-bottom: none;
+        }
+
+        .subtask-checkbox {
+            width: 18px;
+            height: 18px;
+            border: 2px solid #ddd;
+            border-radius: 4px;
+            margin-right: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .subtask-checkbox:hover {
+            border-color: #ff6b9d;
+        }
+
+        .subtask-checkbox.checked {
+            background: linear-gradient(135deg, #ff6b9d 0%, #feca57 100%);
+            border-color: transparent;
+        }
+
+        .subtask-checkbox.checked i {
+            color: white;
+            font-size: 10px;
+        }
+
+        .subtask-text {
+            flex: 1;
+            font-size: 13px;
+            color: #666;
+        }
+
+        .subtask-item.completed .subtask-text {
+            text-decoration: line-through;
+            color: #aaa;
+        }
+
+        .subtask-delete {
+            color: #ccc;
+            font-size: 12px;
+            cursor: pointer;
+            padding: 3px 6px;
+        }
+
+        .subtask-delete:hover {
+            color: #ff6b6b;
+        }
+
+        .subtask-add {
+            display: flex;
+            align-items: center;
+            margin-top: 8px;
+            padding-left: 28px;
+        }
+
+        .subtask-input {
+            flex: 1;
+            height: 32px;
+            padding: 0 10px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 13px;
+            outline: none;
+        }
+
+        .subtask-input:focus {
+            border-color: #ff6b9d;
+        }
+
+        .subtask-add-btn {
+            width: 28px;
+            height: 28px;
+            margin-left: 8px;
+            background: linear-gradient(135deg, #ff6b9d 0%, #feca57 100%);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .subtask-toggle {
+            font-size: 12px;
+            color: #888;
+            cursor: pointer;
+            margin-left: 8px;
+            padding: 4px 8px;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+
+        .subtask-toggle:hover {
+            background: rgba(255,107,157,0.1);
+            color: #ff6b9d;
+        }
+
         /* 筛选标签 */
         .filter-section {
             display: flex;
@@ -766,6 +929,14 @@
             .progress-label { font-size: 12px; }
             .progress-bar { height: 8px; }
 
+            /* 搜索框 */
+            .search-wrapper {
+                padding: 0 12px;
+                border-radius: 14px;
+            }
+            .search-input { height: 44px; font-size: 14px; }
+            .search-icon { font-size: 14px; }
+
             /* 输入区域 */
             .input-section { gap: 8px; }
             .input-wrapper { min-width: auto; flex: 1; }
@@ -826,17 +997,40 @@
                 margin-right: 12px;
             }
             .todo-text { font-size: 14px; }
-            .todo-meta { gap: 6px; }
+            .todo-meta { gap: 6px; flex-wrap: wrap; }
             .category-badge {
                 padding: 2px 8px;
                 font-size: 10px;
             }
             .priority-badge { font-size: 11px; }
             .due-date { font-size: 10px; }
+            .subtask-toggle { font-size: 11px; padding: 3px 6px; }
             .delete-btn {
                 width: 30px;
                 height: 30px;
                 font-size: 14px;
+            }
+
+            /* 子任务 */
+            .subtasks-section {
+                padding-left: 34px;
+                margin-top: 8px;
+            }
+            .subtask-item { padding: 6px 0; }
+            .subtask-checkbox {
+                width: 16px;
+                height: 16px;
+                margin-right: 8px;
+            }
+            .subtask-text { font-size: 12px; }
+            .subtask-input {
+                height: 28px;
+                font-size: 12px;
+            }
+            .subtask-add-btn {
+                width: 24px;
+                height: 24px;
+                font-size: 10px;
             }
 
             /* 空状态 */
@@ -888,6 +1082,7 @@
         @media (max-width: 360px) {
             .stats-grid { grid-template-columns: repeat(2, 1fr); }
             .category-tag { padding: 5px 10px; font-size: 11px; }
+            .subtasks-section { padding-left: 28px; }
         }
     </style>
 </head>
@@ -952,6 +1147,15 @@
                 <span class="category-tag life" data-cat="life" onclick="quickSelectCategory('life')">🏠 生活</span>
                 <span class="category-tag study" data-cat="study" onclick="quickSelectCategory('study')">📚 学习</span>
                 <span class="category-tag other" data-cat="other" onclick="quickSelectCategory('other')">📦 其他</span>
+            </div>
+        </div>
+
+        <!-- 搜索框 -->
+        <div class="search-section">
+            <div class="search-wrapper">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" class="search-input" id="searchInput" placeholder="搜索待办事项..." oninput="handleSearch(this.value)">
+                <i class="fas fa-times search-clear" id="searchClear" onclick="clearSearch()" style="display: none;"></i>
             </div>
         </div>
 
@@ -1103,8 +1307,10 @@
         let currentFilter = 'all';
         let categoryFilter = null;
         let priorityFilter = null;
+        let searchKeyword = '';
         let selectedCategory = 'work';
         let selectedPriority = 'medium';
+        let expandedTodos = new Set(); // 记录展开的待办ID
 
         init();
 
@@ -1160,7 +1366,7 @@
             const category = document.getElementById('modalCategory').value;
             const dueDate = document.getElementById('modalDate').value;
             if (!text) { showToast('请输入待办内容'); return; }
-            const todo = { id: Date.now(), text: text, completed: false, category: category, priority: selectedPriority, dueDate: dueDate, createTime: new Date().toLocaleString('zh-CN', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' }) };
+            const todo = { id: Date.now(), text: text, completed: false, category: category, priority: selectedPriority, dueDate: dueDate, subtasks: [], createTime: new Date().toLocaleString('zh-CN', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' }) };
             todos.unshift(todo);
             document.getElementById('todoInput').value = '';
             closeModal();
@@ -1229,6 +1435,7 @@
             if (currentFilter === 'completed') filtered = filtered.filter(i => i.completed);
             if (categoryFilter) filtered = filtered.filter(i => i.category === categoryFilter);
             if (priorityFilter) filtered = filtered.filter(i => i.priority === priorityFilter);
+            if (searchKeyword) filtered = filtered.filter(i => i.text.toLowerCase().includes(searchKeyword.toLowerCase()));
             const total = todos.length, completed = todos.filter(i => i.completed).length, active = total - completed, overdue = todos.filter(i => !i.completed && isOverdue(i.dueDate)).length, progress = total > 0 ? Math.round((completed / total) * 100) : 0;
             document.getElementById('totalCount').textContent = total;
             document.getElementById('activeCount').textContent = active;
@@ -1244,13 +1451,88 @@
             const catName = { work: '工作', life: '生活', study: '学习', other: '其他' }, pName = { high: '高', medium: '中', low: '低' };
             todoList.innerHTML = filtered.map(item => {
                 const dueLabel = getDueDateLabel(item.dueDate), dueClass = isOverdue(item.dueDate) ? 'overdue' : (isToday(item.dueDate) ? 'today' : '');
-                return '<div class="todo-item priority-' + item.priority + (item.completed ? ' completed' : '') + '"><div class="checkbox ' + (item.completed ? 'checked' : '') + '" onclick="toggleTodo(' + item.id + ')">' + (item.completed ? '<i class="fas fa-check"></i>' : '') + '</div><div class="todo-content"><div class="todo-text">' + escapeHtml(item.text) + '</div><div class="todo-meta"><span class="category-badge ' + item.category + '">' + catMap[item.category] + ' ' + catName[item.category] + '</span><span class="priority-badge priority-' + item.priority + '">' + pMap[item.priority] + ' ' + pName[item.priority] + '</span>' + (dueLabel ? '<span class="due-date ' + dueClass + '"><i class="far fa-calendar"></i> ' + dueLabel + '</span>' : '') + '</div></div><div class="delete-btn" onclick="deleteTodo(' + item.id + ')"><i class="fas fa-times"></i></div></div>';
+                const subtasks = item.subtasks || [];
+                const completedSubtasks = subtasks.filter(s => s.completed).length;
+                const isExpanded = expandedTodos.has(item.id);
+                let subtasksHtml = '';
+                if (subtasks.length > 0 || isExpanded) {
+                    subtasksHtml = '<div class="subtasks-section" id="subtasks-' + item.id + '" style="display: ' + (isExpanded ? 'block' : 'none') + '">';
+                    subtasks.forEach((subtask, index) => {
+                        subtasksHtml += '<div class="subtask-item ' + (subtask.completed ? 'completed' : '') + '"><div class="subtask-checkbox ' + (subtask.completed ? 'checked' : '') + '" onclick="toggleSubtask(' + item.id + ', ' + index + ')">' + (subtask.completed ? '<i class="fas fa-check"></i>' : '') + '</div><span class="subtask-text">' + escapeHtml(subtask.text) + '</span><span class="subtask-delete" onclick="deleteSubtask(' + item.id + ', ' + index + ')"><i class="fas fa-times"></i></span></div>';
+                    });
+                    subtasksHtml += '<div class="subtask-add"><input type="text" class="subtask-input" id="subtaskInput-' + item.id + '" placeholder="添加子任务..." onkeypress="if(event.key===\'Enter\')addSubtask(' + item.id + ')"><button class="subtask-add-btn" onclick="addSubtask(' + item.id + ')"><i class="fas fa-plus"></i></button></div>';
+                    subtasksHtml += '</div>';
+                }
+                const subtaskSummary = subtasks.length > 0 ? '<span class="subtask-toggle" onclick="toggleSubtaskSection(' + item.id + ')">' + (isExpanded ? '收起' : '展开') + ' (' + completedSubtasks + '/' + subtasks.length + ')</span>' : '<span class="subtask-toggle" onclick="toggleSubtaskSection(' + item.id + ')">+ 子任务</span>';
+                return '<div class="todo-item priority-' + item.priority + (item.completed ? ' completed' : '') + '"><div class="checkbox ' + (item.completed ? 'checked' : '') + '" onclick="toggleTodo(' + item.id + ')">' + (item.completed ? '<i class="fas fa-check"></i>' : '') + '</div><div class="todo-content"><div class="todo-text">' + escapeHtml(item.text) + '</div><div class="todo-meta"><span class="category-badge ' + item.category + '">' + catMap[item.category] + ' ' + catName[item.category] + '</span><span class="priority-badge priority-' + item.priority + '">' + pMap[item.priority] + ' ' + pName[item.priority] + '</span>' + (dueLabel ? '<span class="due-date ' + dueClass + '"><i class="far fa-calendar"></i> ' + dueLabel + '</span>' : '') + subtaskSummary + '</div>' + subtasksHtml + '</div><div class="delete-btn" onclick="deleteTodo(' + item.id + ')"><i class="fas fa-times"></i></div></div>';
             }).join('');
         }
 
         function escapeHtml(text) { const div = document.createElement('div'); div.textContent = text; return div.innerHTML; }
         function showToast(message) { const toast = document.getElementById('toast'); toast.textContent = message; toast.classList.add('show'); setTimeout(() => toast.classList.remove('show'), 1500); }
         document.addEventListener('click', function(e) { if (!e.target.closest('.filter-dropdown')) document.getElementById('dropdownMenu').classList.remove('show'); });
+
+        // 搜索功能
+        function handleSearch(keyword) {
+            searchKeyword = keyword.trim();
+            document.getElementById('searchClear').style.display = searchKeyword ? 'block' : 'none';
+            render();
+        }
+
+        function clearSearch() {
+            document.getElementById('searchInput').value = '';
+            searchKeyword = '';
+            document.getElementById('searchClear').style.display = 'none';
+            render();
+        }
+
+        // 子任务功能
+        function toggleSubtaskSection(todoId) {
+            if (expandedTodos.has(todoId)) {
+                expandedTodos.delete(todoId);
+            } else {
+                expandedTodos.add(todoId);
+            }
+            render();
+        }
+
+        function toggleSubtask(todoId, subtaskIndex) {
+            todos = todos.map(item => {
+                if (item.id === todoId && item.subtasks && item.subtasks[subtaskIndex]) {
+                    const newSubtasks = [...item.subtasks];
+                    newSubtasks[subtaskIndex] = { ...newSubtasks[subtaskIndex], completed: !newSubtasks[subtaskIndex].completed };
+                    return { ...item, subtasks: newSubtasks };
+                }
+                return item;
+            });
+            saveAndRender();
+        }
+
+        function addSubtask(todoId) {
+            const input = document.getElementById('subtaskInput-' + todoId);
+            const text = input.value.trim();
+            if (!text) { showToast('请输入子任务内容'); return; }
+            todos = todos.map(item => {
+                if (item.id === todoId) {
+                    const newSubtasks = [...(item.subtasks || []), { text: text, completed: false }];
+                    return { ...item, subtasks: newSubtasks };
+                }
+                return item;
+            });
+            expandedTodos.add(todoId);
+            saveAndRender();
+        }
+
+        function deleteSubtask(todoId, subtaskIndex) {
+            todos = todos.map(item => {
+                if (item.id === todoId && item.subtasks) {
+                    const newSubtasks = item.subtasks.filter((_, i) => i !== subtaskIndex);
+                    return { ...item, subtasks: newSubtasks };
+                }
+                return item;
+            });
+            saveAndRender();
+        }
     </script>
 </body>
 </html>
