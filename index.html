@@ -723,14 +723,171 @@
             to { opacity: 1; transform: translate(-50%, -50%); }
         }
 
-        /* 响应式 */
+        /* 响应式 - 手机端优化 */
         @media (max-width: 480px) {
-            body { padding: 15px; }
-            .header-card { padding: 20px; border-radius: 20px; }
-            .title { font-size: 24px; }
-            .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
-            .quote-card { padding: 20px; }
-            .quote-text { font-size: 15px; }
+            body { padding: 10px; }
+
+            .container { max-width: 100%; }
+
+            /* 名言卡片 */
+            .quote-card {
+                padding: 18px 15px;
+                border-radius: 16px;
+                margin-bottom: 12px;
+            }
+            .quote-card::before,
+            .quote-card::after { font-size: 18px; }
+            .quote-text { font-size: 14px; line-height: 1.5; }
+            .quote-author { font-size: 12px; }
+
+            /* 头部卡片 */
+            .header-card {
+                padding: 18px 15px;
+                border-radius: 16px;
+                margin-bottom: 12px;
+            }
+
+            .header-top { margin-bottom: 18px; }
+            .title { font-size: 22px; }
+            .date { font-size: 12px; }
+
+            /* 统计卡片 */
+            .stats-grid {
+                grid-template-columns: repeat(4, 1fr);
+                gap: 8px;
+                margin-bottom: 15px;
+            }
+            .stat-card { padding: 12px 5px; border-radius: 12px; }
+            .stat-number { font-size: 20px; }
+            .stat-label { font-size: 11px; }
+
+            /* 进度条 */
+            .progress-section { margin-bottom: 15px; }
+            .progress-label { font-size: 12px; }
+            .progress-bar { height: 8px; }
+
+            /* 输入区域 */
+            .input-section { gap: 8px; }
+            .input-wrapper { min-width: auto; flex: 1; }
+            .todo-input {
+                height: 44px;
+                padding: 0 14px;
+                font-size: 14px;
+                border-radius: 12px;
+            }
+            .option-btn, .add-btn {
+                height: 44px;
+                width: 44px;
+                min-width: 44px;
+                padding: 0;
+                border-radius: 12px;
+            }
+
+            /* 分类标签 */
+            .category-section {
+                margin-top: 10px;
+                gap: 6px;
+            }
+            .category-tag {
+                padding: 6px 12px;
+                font-size: 12px;
+                border-radius: 16px;
+            }
+
+            /* 筛选区域 */
+            .filter-section {
+                margin-bottom: 12px;
+                gap: 8px;
+            }
+            .filter-tabs {
+                padding: 4px;
+                border-radius: 12px;
+            }
+            .filter-tab {
+                padding: 8px 10px;
+                font-size: 13px;
+                border-radius: 10px;
+            }
+            .dropdown-btn {
+                padding: 8px 14px;
+                font-size: 13px;
+                border-radius: 10px;
+            }
+
+            /* 待办列表 */
+            .todo-list { gap: 10px; }
+            .todo-item {
+                padding: 14px 15px;
+                border-radius: 14px;
+            }
+            .checkbox {
+                width: 22px;
+                height: 22px;
+                margin-right: 12px;
+            }
+            .todo-text { font-size: 14px; }
+            .todo-meta { gap: 6px; }
+            .category-badge {
+                padding: 2px 8px;
+                font-size: 10px;
+            }
+            .priority-badge { font-size: 11px; }
+            .due-date { font-size: 10px; }
+            .delete-btn {
+                width: 30px;
+                height: 30px;
+                font-size: 14px;
+            }
+
+            /* 空状态 */
+            .empty-state { padding: 50px 15px; }
+            .empty-icon {
+                width: 80px;
+                height: 80px;
+                font-size: 40px;
+            }
+            .empty-text { font-size: 18px; }
+            .empty-subtext { font-size: 13px; }
+
+            /* 清除按钮 */
+            .clear-section { margin-top: 20px; }
+            .clear-btn {
+                padding: 10px 22px;
+                font-size: 13px;
+            }
+
+            /* 弹窗 */
+            .modal {
+                padding: 24px 20px;
+                border-radius: 20px;
+                margin: 15px;
+            }
+            .modal-title { font-size: 18px; margin-bottom: 18px; }
+            .modal-section { margin-bottom: 16px; }
+            .modal-label { font-size: 13px; }
+            .modal-input, .modal-select {
+                height: 44px;
+                font-size: 14px;
+                border-radius: 10px;
+            }
+            .priority-options { gap: 8px; }
+            .priority-option {
+                padding: 10px;
+                font-size: 12px;
+                border-radius: 10px;
+            }
+            .modal-buttons { margin-top: 20px; }
+            .modal-btn {
+                height: 44px;
+                font-size: 14px;
+                border-radius: 10px;
+            }
+        }
+
+        /* 超小屏幕 */
+        @media (max-width: 360px) {
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .category-tag { padding: 5px 10px; font-size: 11px; }
         }
     </style>
 </head>
